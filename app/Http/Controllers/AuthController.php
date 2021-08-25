@@ -78,7 +78,7 @@ class AuthController extends Controller
         $data['name'] = $request->name;
         $data['email'] = $request->email;
         $data['password'] = Hash::make($request->password);
-        DB:table('users')->insert($data);
+        DB::table('users')->insert($data);
 
         return $this->login($request);
     }
