@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import AppStorage from "../../../../resources/js/helpers/AppStorage";
+import AppStorage from "../../helpers/AppStorage";
 export default {
     name: "Logout",
     created() {
