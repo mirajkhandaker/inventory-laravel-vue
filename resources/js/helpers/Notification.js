@@ -29,12 +29,12 @@ class Notification {
         }).show();
     }
 
-    warning(){
+    warning(msg){
         new Noty({
             type: 'warning',
             layout: 'topRight',
-            text: 'OOps! Wrong.',
-            timeout: 1000,
+            text: msg,
+            timeout: 2000,
             progressBar:true
         }).show();
     }

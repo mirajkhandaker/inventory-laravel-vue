@@ -10,7 +10,6 @@
                                         <h1 class="h4 text-gray-900 mb-4">Add Employee</h1>
                                     </div>
                                     <form class="user" @submit.prevent="employeeInsert" enctype="multipart/form-data">
-
                                         <div class="form-group">
                                             <div class="form-row">
                                                 <div class="col-md-6">
@@ -41,7 +40,7 @@
                                                     <input type="text" class="form-control" id="salaray"
                                                            aria-describedby="salaray"
                                                            placeholder="Enter Your Salary"
-                                                           v-model="form.salaray">
+                                                           v-model="form.salary">
                                                     <small class="text-danger" v-if="errors.salaray">{{errors.salaray[0]}}</small>
                                                 </div>
                                             </div>
@@ -74,7 +73,7 @@
                                                     <small class="text-danger" v-if="errors.phone">{{errors.phone[0]}}</small>
                                                 </div>
                                                 <div class="col-md-5">
-                                                    <input type="file" class="custom-file-input" id="photo">
+                                                    <input type="file" class="custom-file-input" id="photo" @change="onFileSelected">
                                                     <label class="custom-file-label" for="photo">Choose file</label>
                                                     <small class="text-danger" v-if="errors.photo">{{errors.photo[0]}}</small>
                                                 </div>
@@ -96,7 +95,6 @@
                 </div>
             </div>
         </div>
-
 </template>
 
 <script>
@@ -118,8 +116,26 @@ export default {
         }
     },
     methods:{
+        onFileSelected(event){
+            let file = event.target.files[0];
+            if(file.size > 5243850){
+                Notification.warning("Image is too large");
+            }else {
+                let reader = new FileReader();
+                reader.onload = event =>{
+                    this.form.photo = event.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        },
         employeeInsert(){
-            alert('ok');
+            axios.post('/api/employee',this.form)
+            .then(result => {
+                this.$router.push({name: "AllEmployee"});
+                console.log(result.data);
+                Notification.success();
+            })
+            .catch(error => this.errors = error.response.data.errors);
         }
     },
     created() {

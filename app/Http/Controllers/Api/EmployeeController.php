@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class EmployeeController extends Controller
 {
@@ -20,16 +21,6 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -37,7 +28,33 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            "name" => 'required',
+            "email" => 'required',
+            "phone" => 'required'
+        ]);
+
+        $employee = new Employee();
+
+        if ($request->photo){
+            $position = strpos($request->photo,';');
+            $sub = substr($request->photo,0,$position);
+            $ext = explode('/', $sub)[1];
+            $name = time().'.'.$ext;
+            $img = Image::make($request->photo)->resize(240,200);
+            $uploadPath = "backend/employee/";
+            $image_url = $uploadPath.$name;
+            $img->save($image_url);
+            $employee->photo = $image_url;
+        }
+        $employee->name = $request->name;
+        $employee->email = $request->email;
+        $employee->phone = $request->phone;
+        $employee->address = $request->address;
+        $employee->salary = $request->salary;
+        $employee->joining_date = $request->joining_date;
+        $employee->nid = $request->nid;
+        $employee->save();
     }
 
     /**

@@ -2598,8 +2598,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Create",
   data: function data() {
@@ -2618,8 +2616,36 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    onFileSelected: function onFileSelected(event) {
+      var _this = this;
+
+      var file = event.target.files[0];
+
+      if (file.size > 5243850) {
+        Notification.warning("Image is too large");
+      } else {
+        var reader = new FileReader();
+
+        reader.onload = function (event) {
+          _this.form.photo = event.target.result;
+        };
+
+        reader.readAsDataURL(file);
+      }
+    },
     employeeInsert: function employeeInsert() {
-      alert('ok');
+      var _this2 = this;
+
+      axios.post('/api/employee', this.form).then(function (result) {
+        _this2.$router.push({
+          name: "AllEmployee"
+        });
+
+        console.log(result.data);
+        Notification.success();
+      })["catch"](function (error) {
+        return _this2.errors = error.response.data.errors;
+      });
     }
   },
   created: function created() {
@@ -2892,12 +2918,12 @@ var Notification = /*#__PURE__*/function () {
     }
   }, {
     key: "warning",
-    value: function warning() {
+    value: function warning(msg) {
       new Noty({
         type: 'warning',
         layout: 'topRight',
-        text: 'OOps! Wrong.',
-        timeout: 1000,
+        text: msg,
+        timeout: 2000,
         progressBar: true
       }).show();
     }
@@ -47317,8 +47343,8 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.form.salaray,
-                                expression: "form.salaray"
+                                value: _vm.form.salary,
+                                expression: "form.salary"
                               }
                             ],
                             staticClass: "form-control",
@@ -47328,7 +47354,7 @@ var render = function() {
                               "aria-describedby": "salaray",
                               placeholder: "Enter Your Salary"
                             },
-                            domProps: { value: _vm.form.salaray },
+                            domProps: { value: _vm.form.salary },
                             on: {
                               input: function($event) {
                                 if ($event.target.composing) {
@@ -47336,7 +47362,7 @@ var render = function() {
                                 }
                                 _vm.$set(
                                   _vm.form,
-                                  "salaray",
+                                  "salary",
                                   $event.target.value
                                 )
                               }
@@ -47468,7 +47494,8 @@ var render = function() {
                         _c("div", { staticClass: "col-md-5" }, [
                           _c("input", {
                             staticClass: "custom-file-input",
-                            attrs: { type: "file", id: "photo" }
+                            attrs: { type: "file", id: "photo" },
+                            on: { change: _vm.onFileSelected }
                           }),
                           _vm._v(" "),
                           _c(
