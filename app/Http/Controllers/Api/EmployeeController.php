@@ -16,7 +16,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employee = Employee::all();
+        $employee = Employee::paginate(10);
         return response()->json($employee);
     }
 
@@ -65,7 +65,8 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        //
+        $employee = Employee::find($id);
+        return response()->json($employee);
     }
 
     /**
@@ -99,6 +100,10 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $employee = Employee::find($id);
+        if ($employee->photo){
+            unlink($employee->photo);
+        }
+        $employee->delete();
     }
 }
