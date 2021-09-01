@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\EmployeeController;
+use App\Http\Controllers\Api\SupplierController;
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\AuthController;
 
 Route::group([
@@ -18,6 +20,8 @@ Route::group([
 
 Route::apiResources([
     'employee' => EmployeeController::class,
+    'supplier' => SupplierController::class,
+    'category' => CategoryController::class,
 ]);
 
 //Route::apiResource('/employee',EmployeeController::class);

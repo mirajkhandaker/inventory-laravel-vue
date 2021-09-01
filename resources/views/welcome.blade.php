@@ -57,8 +57,22 @@
                 </a>
                 <div id="supplier" class="collapse" aria-labelledby="headingsupplier" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <router-link class="collapse-item" :to="{}">Add Supplier</router-link>
-                        <router-link class="collapse-item" :to="{}">All Supplier</router-link>
+                        <router-link class="collapse-item" :to="{name: 'CreateSupplier'}">Add Supplier</router-link>
+                        <router-link class="collapse-item" :to="{name: 'AllSupplier'}">All Supplier</router-link>
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#category"
+                   aria-expanded="true" aria-controls="category">
+                    <i class="far fa-fw fa-window-maximize"></i>
+                    <span>Category</span>
+                </a>
+                <div id="category" class="collapse" aria-labelledby="headingcategory" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <router-link class="collapse-item" :to="{name: 'CreateCategory'}">Add Category</router-link>
+                        <router-link class="collapse-item" :to="{name: 'AllCategory'}">All Category</router-link>
                     </div>
                 </div>
             </li>
